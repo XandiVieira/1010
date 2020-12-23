@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "685245644008",
+    "project_id": "project-2855322595195137760",
+    "storage_bucket": "project-2855322595195137760.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685245644008:android:9167804d73258977f89d5d",
+        "android_client_info": {
+          "package_name": "com.relyon.a1010"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685245644008-k42sef29isjkg5j1g6tmls2672m60m20.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.relyon.a1010",
+            "certificate_hash": "d74e2d92af4379ce1e37aa61ef630e91a4610a0d"
+          }
+        },
+        {
+          "client_id": "685245644008-90c6n2sjn6g8nor0r9lv9084h1f30i0v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDi0HBOww_aUrTm-8QR9CTAnqtkRxdaByo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685245644008-90c6n2sjn6g8nor0r9lv9084h1f30i0v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">1010</string>
+    <string name="slogan">Receba feedbacks sinceros de suas fotos, textos e muito mais!</string>
+    <string name="logo_content_description">white background showing \'10/10\' in black</string>
+    <string name="nao_postamos">Não postamos nada no Facebook</string>
+    <string name="ao_entrar">Ao entrar, você concorda com nossos</string>
+    <string name="termos"><u>termos de serviço</u></string>
+    <string name="politica_de_privacidade">e <u>politica de privacidade</u></string>
+    <string name="firebase_error_login">Erro Firebase</string>
+    <string name="error_login">Falha na conexão</string>
+    <string name="use_terms">Termos de uso</string>
+    <string name="privacy_policy">Politica de privacidade</string>
+    <string name="facebook_app_id">845098899589154</string>
+    <string name="fb_login_protocol_scheme">fb845098899589154</string>
+</resources>
