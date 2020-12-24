@@ -12,4 +12,6 @@
     <string name="privacy_policy">Politica de privacidade</string>
     <string name="facebook_app_id">845098899589154</string>
     <string name="fb_login_protocol_scheme">fb845098899589154</string>
+    <string name="version">Versão %1$s</string>
+    <string name="error">"Error: "</string>
 </resources>

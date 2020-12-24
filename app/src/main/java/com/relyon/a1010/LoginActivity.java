@@ -5,12 +5,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -22,6 +23,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,18 +55,17 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         activity = this;
 
         setLayoutAttributes();
 
-        appVersion.setText(getAppVersion());
+        appVersion.setText(getString(R.string.version, getAppVersion()));
 
         terms.setOnClickListener(v -> startActivity(new Intent(this, TermsActivity.class)));
         privacyPolicy.setOnClickListener(v -> startActivity(new Intent(this, PrivacyPolicyActivity.class)));
 
-        loginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
+        loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -77,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException error) {
-                Toast.makeText(activity, R.string.error_login, Toast.LENGTH_SHORT).show();
+                Log.e("Facebook Exception:", error.getMessage());
             }
         });
 
@@ -91,12 +92,9 @@ public class LoginActivity extends AppCompatActivity {
 
         new Handler().postDelayed(() -> {
         }, 4000);
-        techniques.addAll(Arrays.asList(Techniques.values()));
-        callAnimation(random.nextInt(techniques.size()));
-    }
 
-    private void callAnimation(final int i) {
-        YoYo.with(techniques.get(i)).duration(7000).withListener(new Animator.AnimatorListener() {
+        techniques.addAll(Arrays.asList(Techniques.values()));
+        Animator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -104,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                callAnimation(random.nextInt(techniques.size()));
+                callAnimation(random.nextInt(techniques.size()), this);
             }
 
             @Override
@@ -116,7 +114,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onAnimationRepeat(Animator animation) {
 
             }
-        }).repeat(0).playOn(logo);
+        };
+        callAnimation(random.nextInt(techniques.size()), animatorListener);
+    }
+
+    private void callAnimation(final int i, Animator.AnimatorListener animatorListener) {
+        YoYo.with(techniques.get(i)).duration(7000).withListener(animatorListener).repeat(0).playOn(logo);
     }
 
     private void setLayoutAttributes() {
@@ -134,6 +137,12 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setVisibility(View.GONE);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        firebaseAuth.signInWithCredential(credential).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("Credential Exception", e.getMessage());
+            }
+        });
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
             if (!task.isSuccessful()) {
                 Toast.makeText(activity, R.string.firebase_error_login, Toast.LENGTH_LONG).show();
