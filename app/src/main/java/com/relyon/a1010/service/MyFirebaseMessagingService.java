@@ -21,7 +21,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.relyon.a1010.MainActivity;
 import com.relyon.a1010.R;
-import com.relyon.a1010.Util;
+import com.relyon.a1010.util.Util;
 import com.relyon.a1010.util.Constants;
 
 import java.util.Random;

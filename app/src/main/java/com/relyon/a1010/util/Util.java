@@ -1,4 +1,4 @@
-package com.relyon.a1010;
+package com.relyon.a1010.util;
 
 import com.google.firebase.database.DatabaseReference;
 

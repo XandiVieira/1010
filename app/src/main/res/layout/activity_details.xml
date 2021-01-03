@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".DetailsActivity">
 
     <LinearLayout
         android:id="@+id/header"
@@ -19,24 +19,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="@dimen/horizontal_margin"
+                android:src="@drawable/back_arrow" />
+
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/horizontal_margin"
                 android:layout_marginLeft="@dimen/horizontal_margin"
-                android:layout_weight="1"
                 android:fontFamily="@font/baloo"
-                android:text="@string/rate_experiments"
+                android:text="@string/details"
                 android:textColor="@color/black"
                 android:textSize="@dimen/big_text" />
-
-            <ImageView
-                android:id="@+id/profile"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:layout_weight="4"
-                android:src="@drawable/ic_profile" />
         </LinearLayout>
 
         <ImageView
@@ -63,7 +62,6 @@
             android:layout_weight="1">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/new_experiment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/horizontal_margin"
@@ -73,6 +71,7 @@
                 app:cardCornerRadius="10dp">
 
                 <Button
+                    android:id="@+id/new_experiment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorAccent"
@@ -85,29 +84,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/power_indication"
+            <ImageView
+                android:id="@+id/pause_experiment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/baloo"
-                android:gravity="center"
-                android:lineSpacingExtra="-12dp"
-                android:text="@string/power"
-                android:textColor="@color/green"
-                android:textSize="@dimen/medium_text" />
+                android:src="@drawable/ic_play" />
 
-            <ProgressBar
-                android:id="@+id/power_scale"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/vertical_margin"
-                android:progress="100"
-                android:progressDrawable="@drawable/gradient_progress" />
+                android:elevation="@dimen/elevation"
+                app:cardCornerRadius="10dp">
+
+                <Button
+                    android:id="@+id/vote"
+                    android:layout_width="75dp"
+                    android:layout_height="30dp"
+                    android:background="@color/colorAccent"
+                    android:fontFamily="@font/baloo"
+                    android:text="@string/vote" />
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </LinearLayout>
 
@@ -118,14 +118,24 @@
         android:layout_marginHorizontal="@dimen/horizontal_margin"
         android:layout_marginTop="@dimen/vertical_margin" />
 
-    <com.lorentzos.flingswipe.SwipeFlingAdapterView
-        android:id="@+id/cards"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/experiment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/horizontal_margin"
-        android:layout_marginVertical="@dimen/vertical_margin"
-        app:max_visible="5"
-        app:min_adapter_stack="5"
-        app:rotation_degrees="16" />
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/baloo"
+        android:gravity="center"
+        android:text="@string/comments"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
 </LinearLayout>

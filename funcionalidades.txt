@@ -1,0 +1,27 @@
+1. Logar com facebook
+2. Logar com Google
+3. Visualizar experimentos
+4. Avaliar experimentos
+5. Reportar experimentos
+6. Comentar experimentos
+7. Criar experimentos (foto, texto, arquivo, audio, video)
+8. Visualizar lista de seus próprios experimentos
+9. Visualizar detalhes de cada experimento
+10. Pausar um experimento (economizar power)
+11. Ganhar power (ao avaliar experimentos)
+12. Excluir experimento
+13. Comprar créditos (para um volume maior de avaliações)
+14. Virar membro (para desbloquear recursos exclusivos)
+15. Filtrar meus experimentos por categoria
+16. Filtrar experimentos a serem avaliados por categoria
+17. Deslogar
+18. Excluir conta
+19. Reiniciar um experimento (pausado ou finalizado)
+20. Definir critérios para cada experimento
+
+Membro:
+1. Mais opções de midia (arquivo, audio e video)
+2. Receber mais votos
+3. Múltiplos experimentos por vez
+4. Não ver anúncios
+5. Power grátis toda semana

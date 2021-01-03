@@ -11,7 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -23,7 +22,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +33,7 @@ import java.util.Random;
 
 import static com.facebook.appevents.internal.AppEventUtility.getAppVersion;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements DefaultActivity {
 
     private Activity activity;
     private CallbackManager callbackManager;
@@ -122,7 +120,8 @@ public class LoginActivity extends AppCompatActivity {
         YoYo.with(techniques.get(i)).duration(7000).withListener(animatorListener).repeat(0).playOn(logo);
     }
 
-    private void setLayoutAttributes() {
+    @Override
+    public void setLayoutAttributes() {
         progressBar = findViewById(R.id.progress_bar);
         callbackManager = CallbackManager.Factory.create();
         loginButton = findViewById(R.id.login_button);
@@ -137,12 +136,6 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setVisibility(View.GONE);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
-        firebaseAuth.signInWithCredential(credential).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("Credential Exception", e.getMessage());
-            }
-        });
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
             if (!task.isSuccessful()) {
                 Toast.makeText(activity, R.string.firebase_error_login, Toast.LENGTH_LONG).show();

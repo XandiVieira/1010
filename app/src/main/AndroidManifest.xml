@@ -14,6 +14,9 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".NewExperimentActivity"></activity>
+        <activity android:name=".DetailsActivity" />
+        <activity android:name=".ProfileActivity" />
 
         <service
             android:name=".service.MyFirebaseMessagingService"
@@ -44,7 +47,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

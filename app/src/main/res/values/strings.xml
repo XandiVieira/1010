@@ -14,4 +14,19 @@
     <string name="fb_login_protocol_scheme">fb845098899589154</string>
     <string name="version">Versão %1$s</string>
     <string name="error">"Error: "</string>
+    <string name="your_experiments">Seus experimentos</string>
+    <string name="new_experiment">+ Novo Experimento</string>
+    <string name="vote">Vote</string>
+    <string name="power">Power: %1$s</string>
+    <string name="valuations">%1$s Avaliações</string>
+    <string name="details">Detalhes</string>
+    <string name="comments">Comentários:</string>
+    <string name="photo">Foto</string>
+    <string name="text">Texto</string>
+    <string name="rate_experiments">Avalie Experimentos</string>
+    <string name="top">Top</string>
+    <string name="Alto">High</string>
+    <string name="Neutro">Medium</string>
+    <string name="Baixo">Low</string>
+    <string name="Vazio">Empty</string>
 </resources>
