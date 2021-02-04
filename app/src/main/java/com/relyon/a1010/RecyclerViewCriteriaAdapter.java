@@ -1,16 +1,26 @@
 package com.relyon.a1010;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.relyon.a1010.model.Criteria;
+import com.relyon.a1010.model.Experiment;
+import com.relyon.a1010.util.Constants;
+import com.relyon.a1010.util.Util;
 
 import java.util.List;
 
@@ -19,9 +29,11 @@ public class RecyclerViewCriteriaAdapter extends RecyclerView.Adapter<RecyclerVi
     private final List<Criteria> criteriaList;
     private Context context;
     private int totalValuations;
+    private Experiment experiment;
 
-    public RecyclerViewCriteriaAdapter(List<Criteria> criteriaList, Context context, int totalValuations) {
-        this.criteriaList = criteriaList;
+    public RecyclerViewCriteriaAdapter(Experiment experiment, Context context, int totalValuations) {
+        this.experiment = experiment;
+        this.criteriaList = experiment.getCriteria();
         this.context = context;
         this.totalValuations = totalValuations;
     }
@@ -41,6 +53,27 @@ public class RecyclerViewCriteriaAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.criteria.setText(criteria.getCriteria());
         holder.rateIndication.setText(String.valueOf((int) (criteria.getSumOfValuations() / totalValuations)));
         holder.rate.setProgress((int) (criteria.getSumOfValuations() / totalValuations));
+
+        holder.rate.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                for (Criteria crit : criteriaList){
+                    if (crit.getCriteria().equals(criteria.getCriteria())){
+
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -50,7 +83,7 @@ public class RecyclerViewCriteriaAdapter extends RecyclerView.Adapter<RecyclerVi
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ProgressBar rate;
+        private SeekBar rate;
         private TextView criteria;
         private TextView rateIndication;
 
@@ -60,5 +93,20 @@ public class RecyclerViewCriteriaAdapter extends RecyclerView.Adapter<RecyclerVi
             this.criteria = rowView.findViewById(R.id.criteria);
             this.rateIndication = rowView.findViewById(R.id.criteria_rate);
         }
+    }
+
+    public void saveValuation(){
+        Util.mUserDatabaseRef.child(experiment.getUserID()).child(Constants.DATABASE_REF_EXPERIMENT).child(experiment.getId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Util.mUserDatabaseRef.child(experiment.getUserID()).child(Constants.DATABASE_REF_EXPERIMENT).child(experiment.getId()).removeEventListener(this);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        })
     }
 }

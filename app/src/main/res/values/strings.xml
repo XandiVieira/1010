@@ -29,4 +29,7 @@
     <string name="Neutro">Medium</string>
     <string name="Baixo">Low</string>
     <string name="Vazio">Empty</string>
+    <string name="choose_your_criteria">Selecione seus critérios:</string>
+    <string name="add_media">Upload Foto</string>
+    <string name="invalid_criteria">Critério Inválido</string>
 </resources>

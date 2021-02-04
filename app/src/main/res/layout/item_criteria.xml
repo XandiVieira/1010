@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <ProgressBar
+    <SeekBar
         android:id="@+id/criteria_progress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
