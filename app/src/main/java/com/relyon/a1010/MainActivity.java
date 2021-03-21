@@ -3,6 +3,7 @@ package com.relyon.a1010;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -10,8 +11,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,6 +26,7 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.relyon.a1010.model.Experiment;
 import com.relyon.a1010.model.User;
 import com.relyon.a1010.util.Constants;
+import com.relyon.a1010.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +40,10 @@ public class MainActivity extends AppCompatActivity implements DefaultActivity {
     private DatabaseReference mExperimentsRef;
     private String firebaseToken;
     private List<Experiment> experimentList = new ArrayList<>();
-    private RecyclerViewExperimentAdapter experimentAdapter = new RecyclerViewExperimentAdapter(experimentList, getApplicationContext());
+    private RecyclerViewExperimentAdapter experimentAdapter;
 
     private ImageView profile;
-    private CardView newExperiment;
+    private Button newExperiment;
     private TextView powerIndication;
     private ProgressBar powerScale;
     private Spinner categories;
@@ -65,24 +68,26 @@ public class MainActivity extends AppCompatActivity implements DefaultActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     mUserDatabaseRef.removeEventListener(this);
                     user = snapshot.getValue(User.class);
-                    if (user != null) {
-                        setUserPower();
-                        mExperimentsRef.orderByChild(Constants.DATABASE_REF_CREATED_AT).startAt(experimentAdapter.getLastItemDate()).limitToFirst(1).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                mExperimentsRef.removeEventListener(this);
-                                for (DataSnapshot snap : snapshot.getChildren()) {
-                                    experimentList.add(snap.getValue(Experiment.class));
-                                }
-                                experimentAdapter = new RecyclerViewExperimentAdapter(experimentList, getApplicationContext());
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                    if (user == null) {
+                        createNewUser();
                     }
+                    setUserPower();
+                    setUserPhoto();
+                    mExperimentsRef.orderByChild(Constants.DATABASE_REF_CREATED_AT).startAt(0).limitToFirst(1).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            mExperimentsRef.removeEventListener(this);
+                            for (DataSnapshot snap : snapshot.getChildren()) {
+                                experimentList.add(snap.getValue(Experiment.class));
+                            }
+                            experimentAdapter = new RecyclerViewExperimentAdapter(experimentList, getApplicationContext());
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
 
                 @Override
@@ -138,23 +143,32 @@ public class MainActivity extends AppCompatActivity implements DefaultActivity {
         newExperiment.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), NewExperimentActivity.class)));
     }
 
+    private void setUserPhoto() {
+        Glide.with(this).load(user.getPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(profile);
+    }
+
+    private void createNewUser() {
+        user = new User(firebaseUser.getUid(), firebaseUser.getDisplayName(), String.valueOf(firebaseUser.getPhotoUrl()), null, 100);
+        Util.mUserDatabaseRef.child(user.getId()).setValue(user);
+    }
+
     private void setUserPower() {
         int power = user.getPower();
         powerScale.setProgress(power);
         if (power >= 95) {
-            powerIndication.setText(getString(R.string.power, getString(R.string.top)));
+            powerIndication.setText(getResources().getString(R.string.power, getResources().getString(R.string.top)));
             powerIndication.setTextColor(getResources().getColor(R.color.red));
         } else if (power >= 60) {
-            powerIndication.setText(getString(R.string.power, getString(R.string.Alto)));
+            powerIndication.setText(getResources().getString(R.string.power, getResources().getString(R.string.Alto)));
             powerIndication.setTextColor(getResources().getColor(R.color.orange));
         } else if (power >= 30) {
-            powerIndication.setText(getString(R.string.power, getString(R.string.Neutro)));
+            powerIndication.setText(getResources().getString(R.string.power, getResources().getString(R.string.Neutro)));
             powerIndication.setTextColor(getResources().getColor(R.color.green));
         } else if (power > 0) {
-            powerIndication.setText(getString(R.string.power, getString(R.string.Baixo)));
+            powerIndication.setText(getResources().getString(R.string.power, getResources().getString(R.string.Baixo)));
             powerIndication.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         } else if (power == 0) {
-            powerIndication.setText(getString(R.string.power, getString(R.string.Vazio)));
+            powerIndication.setText(getResources().getString(R.string.power, getResources().getString(R.string.Vazio)));
             powerIndication.setTextColor(getResources().getColor(R.color.white));
         }
     }
@@ -171,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements DefaultActivity {
         DatabaseReference mDatabaseRef = mFirebaseDatabase.getReference();
         mUserDatabaseRef = mDatabaseRef.child(Constants.DATABASE_REF_USER);
         mExperimentsRef = mDatabaseRef.child(Constants.DATABASE_REF_EXPERIMENT);
+        Util.mUserDatabaseRef = mUserDatabaseRef;
     }
 
     @Override

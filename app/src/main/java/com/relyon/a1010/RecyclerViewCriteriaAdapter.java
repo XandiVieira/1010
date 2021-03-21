@@ -107,6 +107,6 @@ public class RecyclerViewCriteriaAdapter extends RecyclerView.Adapter<RecyclerVi
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        })
+        });
     }
 }
